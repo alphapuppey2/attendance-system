@@ -7,7 +7,7 @@ type TableBodyProps = {
 
 function TableBody({className,children}: TableBodyProps) {
   return (
-    <tbody className={` ${className} `}>
+    <tbody className={`${className??""}`.trim()}>
         {children}
     </tbody>
   )

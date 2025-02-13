@@ -7,7 +7,7 @@ type TableHeaderProps = {
 };
 function TableHeader({className,children}: TableHeaderProps) {
   return (
-    <thead className={`bg-gray-800 text-white ${className} `}>
+    <thead className={`text-white ${className} `}>
         {children}
     </thead>
   )

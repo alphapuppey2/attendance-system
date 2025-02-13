@@ -7,7 +7,7 @@ type TableProps = {
 
 function Table({className , children}: TableProps) {
   return (
-    <table className={`table-auto ${className} bg-red-500`}>
+    <table className={`table-auto ${className} `}>
         {children}
     </table>
   )
