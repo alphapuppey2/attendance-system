@@ -1,14 +1,12 @@
 "use client";
-import Image from "next/image";
-import Topbar from "./components/topbar";
 import Table from "./components/Table/table";
 import TableHeader from "./components/Table/tableHeader";
 import TableCell from "./components/Table/tableCell";
 import TableRow from "./components/Table/tableRow";
 import TableBody from "./components/Table/tableBody";
 import Button from "./components/Button";
-import { useState } from "react";
-import studentUser from "@/models/studentUser";
+// import { useState } from "react";
+import ExportModal from "./components/ModalComponents/exportModal";
 
 interface Attendee {
   IDnumber: string;
@@ -21,7 +19,7 @@ interface Attendee {
 
 export default function Home() {
 
-  const [loading , isLoading] = useState(false);
+  // const [loading , isLoading] = useState(false);
 
   const attendees: Attendee[] = []; 
  
@@ -35,7 +33,7 @@ export default function Home() {
   }
 
   const addNewStudent = async() =>{
-    isLoading(true);
+    // isLoading(true);
 
     try{
       const respo = await fetch("/api/addData",{
@@ -51,20 +49,22 @@ export default function Home() {
         alert("your Data is being save to the database");
       }
       else{
-        alert("user ERror");
+        alert("user Error");
       }
 
     }catch(err){
       console.error("Request failed:", err);
       alert("Something went wrong!");
-    }finally {
-      isLoading(false);
     }
+    // finally {
+    // isLoading(false);
+    // }
 
 
   }
   return (
     <div className="h-screen">
+      <ExportModal />
       <div className="nameCotent h-full pt-12">
         <div className="searchID flex justify-center h-15 p-2">
           <form
@@ -72,6 +72,7 @@ export default function Home() {
             method="get"
             className="rounded flex overflow-hidden"
           >
+          
             <input type="text" placeholder="Search ID" className="p-2" />
             <Button onClick={addNewStudent}>Search</Button>
           </form>
