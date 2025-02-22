@@ -15,8 +15,8 @@ const StudentUserSchema = new Schema<IStudentUser>({
     name: { type: String, required: true },
     course: { type: String, required: true },
     yearLevel: { type: Number, required: true },
-    timeIn: { type: Date, required: true },
-    timeOut: { type: Date, required: true },
+    timeIn: { type: Date, required: true ,default: null },
+    timeOut: { type: Date, required: true,default: null },
 });
 
 

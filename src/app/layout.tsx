@@ -26,10 +26,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen`}
       >
         <Topbar />
+        <div className="relative top-12 h-[calc(100%-100px)] flex flex-col">
         {children}
+
+        </div>
       </body>
     </html>
   );
