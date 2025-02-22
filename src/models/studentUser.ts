@@ -5,8 +5,8 @@ interface IStudentUser extends Document {
     name: string;
     course: string;
     yearLevel: number;
-    timeIn: Date; 
-    timeOut: Date;
+    timeIn: Date | null; 
+    timeOut: Date | null;
 
     
 }
@@ -15,8 +15,8 @@ const StudentUserSchema = new Schema<IStudentUser>({
     name: { type: String, required: true },
     course: { type: String, required: true },
     yearLevel: { type: Number, required: true },
-    timeIn: { type: Date, required: true ,default: null },
-    timeOut: { type: Date, required: true,default: null },
+    timeIn: { type: Date,default: null },
+    timeOut: { type: Date,default: null },
 });
 
 
