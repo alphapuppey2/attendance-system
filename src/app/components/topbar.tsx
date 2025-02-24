@@ -19,11 +19,6 @@ function Topbar() {
               Dataset
               </Link>
           </li>
-          <li>
-            <a href="" className="text-[12px] p-1 rounded-sm hover:bg-blue-500 animation ease-in duration-100">
-              import
-              </a>
-          </li>
         </ul>
       </div>
     </div>

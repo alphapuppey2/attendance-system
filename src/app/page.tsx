@@ -5,7 +5,7 @@ import TableCell from "./components/Table/tableCell";
 import TableRow from "./components/Table/tableRow";
 import TableBody from "./components/Table/tableBody";
 import Button from "./components/Button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface Attendee {
   IDnumber: string;
@@ -19,37 +19,63 @@ interface Attendee {
 export default function Home() {
   const [loading, isLoading] = useState(false);
   const [notfound, setNotFound] = useState("");
-  const [inputValue , setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const [allAttendees, setAttendees] = useState<Attendee[]>([]);
+  const [count, setcount] = useState(0);
 
-
-  const addNewStudent = async (event: React.FormEvent) => {
+  const fetchAllAttendees = async () => {
+    try {
+      isLoading(true);
+      const respo = await fetch("/api/getAttendees", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const dataRes = await respo.json();
+      // console.log(dataRes.attendee);
+      setAttendees(dataRes.attendee);
+      setcount(dataRes.attendee.length);
+    } catch (err) {
+      console.error("Request failed:", err);
+      alert("Something went wrong!");
+    } finally {
+      isLoading(false);
+    }
+  };
+  const addNewAttendee = async (event: React.FormEvent) => {
     event?.preventDefault();
     isLoading(true);
 
-    const regex = /^[0-9]*S/;
     try {
-      // if(inputValue === "" ||  !regex.test(inputValue)){
-      //   console.log("returned" ,inputValue === "");
-      //   return
-      // }
-
-      // await new Promise((resolve)=>setTimeout(resolve,2000));
       const respo = await fetch("/api/addAttendees", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({IDnumber : inputValue}),
+        body: JSON.stringify({ IDnumber: inputValue }),
       });
       const dataRes = await respo.json();
 
-      console.log(dataRes.attendee);
-
-      if (dataRes) {
-        setAttendees((prev)=>[...prev, dataRes.attendee]);
-      } else {
-        setNotFound("No Attendee Found");
+      setAttendees((prev) => {
+        const index = prev.findIndex(
+          (attendee) => attendee.IDnumber === dataRes.findAttendee.IDnumber
+        );
+  
+        if (index !== -1) {
+          // ✅ Update the existing attendee's timeOut only
+          return prev.map((attendee) =>
+            attendee.IDnumber === dataRes.findAttendee.IDnumber
+              ? { ...attendee, timeOut: dataRes.findAttendee.timeOut }
+              : attendee
+          );
+        }
+  
+        // ✅ Add only if it's a brand new attendee (not a check-out)
+        return [...prev, dataRes.findAttendee];
+      });
+      if (dataRes.message === "notFound") {
+        setNotFound("attendee not found");
         setInputValue("");
       }
     } catch (err) {
@@ -59,6 +85,11 @@ export default function Home() {
       isLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchAllAttendees();
+  }, []);
+
   return (
     <div className="h-full w-full flex flex-col">
       <div className="nameCotent">
@@ -67,30 +98,32 @@ export default function Home() {
             action="#"
             method="get"
             className="rounded flex overflow-hidden"
-            onSubmit={addNewStudent}
+            onSubmit={addNewAttendee}
           >
-            <input type="text" 
-            placeholder="Search ID"
-            className="p-2" 
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}/>
+            <input
+              type="text"
+              placeholder="Search ID"
+              className="p-2"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
 
-            <Button onClick={addNewStudent}>Search</Button>
+            <Button onClick={addNewAttendee}>Search</Button>
           </form>
-            
+
           {notfound && (
-             <div className="message text-red-500 font-medium border p-2 mt-2 border-red-500 rounded-md bg-red-300/50">
-             <p>{notfound}</p>
-           </div>
-          )} 
+            <div className="message text-red-500 font-medium border p-2 mt-2 border-red-500 rounded-md bg-red-300/50">
+              <p>{notfound}</p>
+            </div>
+          )}
         </div>
         <div className="attendees flex flex-col p-2">
           <div className="titleHeader p-2">
             <span className="text-xl font-semibold tracking-wide">
-              Attendees
+              {count} Attendees
             </span>
           </div>
-          <div className="tableContainer bg-blue-900 flex  h-full rounded">
+          <div className="tableContainer bg-slate-200 flex  h-full rounded">
             {loading ? (
               <div className="flex justify-center items-center w-full h-full">
                 <p className="text-2xl text-white">Loading...</p>
@@ -112,6 +145,18 @@ export default function Home() {
                 <TableBody className="overflow-y-auto">
                   {allAttendees && allAttendees.length > 0 ? (
                     allAttendees.map((attendee) => {
+                      const timeIn = attendee.timeIn
+                        ? new Date(attendee.timeIn).toLocaleTimeString(
+                            "en-US",
+                            { hour12: false }
+                          )
+                        : "";
+                      const timeOut = attendee.timeOut
+                        ? new Date(attendee.timeOut).toLocaleTimeString(
+                            "en-US",
+                            { hour12: false }
+                          )
+                        : "";
                       return (
                         <TableRow key={attendee.IDnumber}>
                           <TableCell className="pl-5">
@@ -120,8 +165,8 @@ export default function Home() {
                           <TableCell>{attendee.name}</TableCell>
                           <TableCell>{attendee.yearLevel}</TableCell>
                           <TableCell>{attendee.course}</TableCell>
-                          <TableCell>{attendee.timeIn}</TableCell>
-                          <TableCell>{attendee.timeOut}</TableCell>
+                          <TableCell>{timeIn}</TableCell>
+                          <TableCell>{timeOut}</TableCell>
                         </TableRow>
                       );
                     })

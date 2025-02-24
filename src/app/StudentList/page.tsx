@@ -6,6 +6,7 @@ import TableBody from '../components/Table/tableBody'
 import TableCell from '../components/Table/tableCell'
 import TableRow from '../components/Table/tableRow'
 import ImportModal from '../components/ModalComponents/importModal'
+import DeleteModal from '../components/ModalComponents/deleteModal';
 
 interface Attendee {
   IDnumber: string;
@@ -16,11 +17,15 @@ interface Attendee {
 
 function studentDatas() {
   const [showModal, setShowModal] = React.useState(false);
+  const [showDeleteModal, setShowDeleteModal] = React.useState(false);
   const [dataset, setDataset] = React.useState<Attendee[]>([]);
   const [loading, setLoading] = React.useState(false);
 
   const toggleImportModal = () => { 
     setShowModal(!showModal);
+  };
+  const toggleDeleteModal = () => {
+    setShowDeleteModal(!showDeleteModal);
   };
 
   const fetchData = async () =>{
@@ -44,12 +49,16 @@ function studentDatas() {
 
   useEffect(()=>{
     fetchData();
-  },[]);  
+  },[dataset]);  
 
   return (
     <div className='h-full w-full pt-2 px-3 flex flex-col'>
       {showModal && <ImportModal onClose={toggleImportModal} />}
+      {showDeleteModal && <DeleteModal onClose={toggleDeleteModal} />}
       <div className="btn-grp flex justify-end gap-2">
+      <button className='bg-blue-500 text-white rounded p-2 text-sm' onClick={toggleDeleteModal}>
+        Delete Dataset
+      </button>
       <button className='bg-blue-500 text-white rounded p-2 text-sm' onClick={toggleImportModal}>
         Import Dataset
       </button>
