@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { HiMiniXMark } from "react-icons/hi2";
-import { useState } from "react";
 
 type DeleteModalProps = {
     onClose: () => void;
@@ -16,8 +15,7 @@ export default function DeleteModal({ onClose }: DeleteModalProps) {
                     "Content-Type": "application/json",
                 },
             });
-            const dataRes = await response.json();
-            console.log(dataRes);
+            await response.json();
         }catch(error){
             console.log(error);
         };

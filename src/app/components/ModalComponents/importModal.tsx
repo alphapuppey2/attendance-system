@@ -12,9 +12,7 @@ type ImportType = Record<string, any>;
 function ImportModal({ onClose }: ImportModalProps) {
   const [data, setData] = useState<ImportType[]>([]);
 
-  useEffect(() => {
-    console.log(data);
-  },[data]);
+
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -40,8 +38,7 @@ function ImportModal({ onClose }: ImportModalProps) {
         },
         body: JSON.stringify({data}),
       });
-      const dataRes = await response.json();
-      console.log(dataRes);
+      await response.json();
       onClose();
     }catch(err){
       console.error("Request failed:", err);

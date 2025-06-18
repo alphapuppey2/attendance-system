@@ -63,7 +63,6 @@ export default function Home() {
         );
   
         if (index !== -1) {
-          // ✅ Update the existing attendee's timeOut only
           return prev.map((attendee) =>
             attendee.IDnumber === dataRes.findAttendee.IDnumber
               ? { ...attendee, timeOut: dataRes.findAttendee.timeOut }
@@ -71,9 +70,9 @@ export default function Home() {
           );
         }
   
-        // ✅ Add only if it's a brand new attendee (not a check-out)
         return [...prev, dataRes.findAttendee];
       });
+      setcount(dataRes.attendee.length);
       if (dataRes.message === "notFound") {
         setNotFound("attendee not found");
         setInputValue("");

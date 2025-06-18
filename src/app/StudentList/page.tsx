@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Table from '../components/Table/table'
 import TableHeader from '../components/Table/tableHeader'
 import TableBody from '../components/Table/tableBody'
@@ -8,6 +8,7 @@ import TableRow from '../components/Table/tableRow'
 import ImportModal from '../components/ModalComponents/importModal'
 import DeleteModal from '../components/ModalComponents/deleteModal';
 
+
 interface Attendee {
   IDnumber: string;
   name: string;
@@ -15,13 +16,13 @@ interface Attendee {
   yearLevel: string;
 }
 
-function studentDatas() {
-  const [showModal, setShowModal] = React.useState(false);
-  const [showDeleteModal, setShowDeleteModal] = React.useState(false);
-  const [dataset, setDataset] = React.useState<Attendee[]>([]);
-  const [loading, setLoading] = React.useState(false);
+function StudentDatas() {
+  const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [dataset, setDataset] = useState<Attendee[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const toggleImportModal = () => { 
+  const toggleImportModal = () => {
     setShowModal(!showModal);
   };
   const toggleDeleteModal = () => {
@@ -49,7 +50,8 @@ function studentDatas() {
 
   useEffect(()=>{
     fetchData();
-  },[dataset]);  
+  },[]);
+
 
   return (
     <div className='h-full w-full pt-2 px-3 flex flex-col'>
@@ -79,7 +81,11 @@ function studentDatas() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {dataset && dataset.length > 0 ? (
+          {loading ? (
+            <TableRow>
+              <TableCell colSpan={4} >Fetching Students</TableCell>
+            </TableRow>
+          ):dataset && dataset.length > 0 ? (
             dataset.map((attendee) => {
               return (
                 <TableRow key={attendee.IDnumber}>
@@ -99,7 +105,8 @@ function studentDatas() {
                 No Attendees registered
               </TableCell>
             </TableRow>
-          )}
+          )
+          }
         </TableBody>
       </Table>
       </div>
@@ -107,4 +114,4 @@ function studentDatas() {
   )
 }
 
-export default studentDatas
+export default StudentDatas
