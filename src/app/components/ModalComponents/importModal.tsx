@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { HiMiniXMark } from "react-icons/hi2";
 import { useState } from "react";
 import * as XLSX from "xlsx";
@@ -7,7 +7,7 @@ interface ImportModalProps {
     onClose: () => void;
 }
 
-type ImportType = Record<string, any>;
+type ImportType = Record<string, unknown>;
 
 function ImportModal({ onClose }: ImportModalProps) {
   const [data, setData] = useState<ImportType[]>([]);
