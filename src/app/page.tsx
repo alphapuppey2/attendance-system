@@ -86,6 +86,16 @@ export default function Home() {
   };
 
   useEffect(() => {
+    const formatted = allAttendees.map((attendee)=>({
+      ...attendee,
+      timeIn: attendee.timeIn ? new Date(attendee.timeIn).toLocaleTimeString("en-US", { hour12: false }) : "",
+      timeOut: attendee.timeOut ? new Date(attendee.timeOut).toLocaleTimeString("en-US", { hour12: false }) : "",
+    }));
+    setAttendees(formatted);
+    setcount(formatted.length);
+    },[]);
+
+  useEffect(() => {
     fetchAllAttendees();
   }, []);
 
@@ -142,20 +152,9 @@ export default function Home() {
                   </TableRow>
                 </TableHeader>
                 <TableBody className="overflow-y-auto">
-                  {allAttendees && allAttendees.length > 0 ? (
+                  {allAttendees && allAttendees?.length > 0 ? (
                     allAttendees.map((attendee) => {
-                      const timeIn = attendee.timeIn
-                        ? new Date(attendee.timeIn).toLocaleTimeString(
-                            "en-US",
-                            { hour12: false }
-                          )
-                        : "";
-                      const timeOut = attendee.timeOut
-                        ? new Date(attendee.timeOut).toLocaleTimeString(
-                            "en-US",
-                            { hour12: false }
-                          )
-                        : "";
+                      
                       return (
                         <TableRow key={attendee.IDnumber}>
                           <TableCell className="pl-5">
@@ -164,8 +163,8 @@ export default function Home() {
                           <TableCell>{attendee.name}</TableCell>
                           <TableCell>{attendee.yearLevel}</TableCell>
                           <TableCell>{attendee.course}</TableCell>
-                          <TableCell>{timeIn}</TableCell>
-                          <TableCell>{timeOut}</TableCell>
+                          <TableCell>{attendee.timeIn}</TableCell>
+                          <TableCell>{attendee.timeOut}</TableCell>
                         </TableRow>
                       );
                     })
