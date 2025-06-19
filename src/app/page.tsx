@@ -140,7 +140,7 @@ export default function Home() {
                 <TableHeader>
                   <TableRow className="text-left sticky top-0 bg-slate-300 text-slate-950">
                     <TableCell isHeader className="p-5">
-                      id numberss123
+                      id numbers
                     </TableCell>
                     <TableCell isHeader>name</TableCell>
                     <TableCell isHeader>year level</TableCell>
