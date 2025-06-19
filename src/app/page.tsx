@@ -92,7 +92,6 @@ export default function Home() {
       timeOut: attendee.timeOut ? new Date(attendee.timeOut).toLocaleTimeString("en-US", { hour12: false }) : "",
     }));
     setAttendees(formatted);
-    setcount(formatted.length);
     },[]);
 
   useEffect(() => {
@@ -142,7 +141,7 @@ export default function Home() {
                 <TableHeader>
                   <TableRow className="text-left sticky top-0 bg-slate-300 text-slate-950">
                     <TableCell isHeader className="p-5">
-                      id number
+                      id numberss123
                     </TableCell>
                     <TableCell isHeader>name</TableCell>
                     <TableCell isHeader>year level</TableCell>
