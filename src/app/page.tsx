@@ -54,8 +54,13 @@ export default function Home() {
         body: JSON.stringify({ IDnumber: inputValue }),
       });
       const dataRes = await respo.json();
-
-      setAttendees((prev) => {
+    
+      if (dataRes.message ==="No Attendee Found") {
+        setNotFound("Attendee not found, please check the ID number.");
+        setInputValue("");
+      }
+      else{
+        setAttendees((prev) => {
         const index = prev.findIndex(
           (attendee) => attendee.IDnumber === dataRes.findAttendee.IDnumber
         );
@@ -70,9 +75,6 @@ export default function Home() {
   
         return [...prev, dataRes.findAttendee];
       });
-      if (dataRes.message === "notFound") {
-        setNotFound("attendee not found");
-        setInputValue("");
       }
     } catch (err) {
       console.error("Request failed:", err);
