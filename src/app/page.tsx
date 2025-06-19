@@ -21,7 +21,6 @@ export default function Home() {
   const [notfound, setNotFound] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [allAttendees, setAttendees] = useState<Attendee[]>([]);
-  const [count, setcount] = useState(0);
 
   const fetchAllAttendees = async () => {
     try {
@@ -35,7 +34,6 @@ export default function Home() {
       const dataRes = await respo.json();
       // console.log(dataRes.attendee);
       setAttendees(dataRes.attendee);
-      setcount(dataRes.attendee.length);
     } catch (err) {
       console.error("Request failed:", err);
       alert("Something went wrong!");
@@ -72,7 +70,6 @@ export default function Home() {
   
         return [...prev, dataRes.findAttendee];
       });
-      setcount(dataRes.attendee.length);
       if (dataRes.message === "notFound") {
         setNotFound("attendee not found");
         setInputValue("");
@@ -128,7 +125,7 @@ export default function Home() {
         <div className="attendees flex flex-col p-2">
           <div className="titleHeader p-2">
             <span className="text-xl font-semibold tracking-wide">
-              {count} Attendees
+              {allAttendees.length} Attendees
             </span>
           </div>
           <div className="tableContainer bg-slate-200 flex  h-full rounded">
