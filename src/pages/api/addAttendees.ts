@@ -32,7 +32,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             await findAttendee.save();
         }
 
-        console.log(findAttendee);
         res.status(200).json({message: resMessage , findAttendee});
     }catch(error){
         console.log(error);

@@ -54,7 +54,7 @@ function StudentDatas() {
 
 
   return (
-    <div className='h-full w-full pt-2 px-3 flex flex-col'>
+    <div className='relative h-full w-full pt-2 px-3 flex flex-col'>
       {showModal && <ImportModal onClose={toggleImportModal} />}
       {showDeleteModal && <DeleteModal onClose={toggleDeleteModal} />}
       <div className="btn-grp flex justify-end gap-2">

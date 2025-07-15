@@ -22,7 +22,7 @@ export default function DeleteModal({ onClose }: DeleteModalProps) {
         onClose();
     };
     return (
-        <div className="absolute z-10 h-screen w-full -top-12 bg-black flex justify-center items-center bg-opacity-50">
+        <div className="absolute z-10 h-screen w-full -top-12 left-0 bg-black flex justify-center items-center bg-opacity-50">
             <div className="flex flex-col w-[25rem] justify-betweem bg-white p-5 rounded">
                 <div className="modalHeader flex justify-between items-center">
                     <h1 className="text-2xl font-semibold">Delete Dataset</h1>
